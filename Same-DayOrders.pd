@@ -1,0 +1,22 @@
+Identify users who started a session and placed an order on the same day. For these users, calculate the total number of orders and the total order value for that day.Your output should include the user, the session date, the total number of orders, and the total order value for that day.
+
+Explanation
+------------
+I used Pandas to combine user sessions and order data to get insights on total orders and order value per session. Here’s a quick breakdown:
+
+Remove Duplicates: First, I extracted unique sessions by user_id and session_date.
+
+Merge Data: Then, I merged this with order data on user_id and order_date to link sessions with their orders.
+
+Aggregate: Finally, I grouped by user and session date, counting the number of orders and summing the order values.
+
+ Result: A summary of total orders and revenue per session—perfect for tracking user engagement and purchase patterns!
+
+solution
+ --------
+import pandas as pd
+unique_sessions = sessions[['user_id', 'session_date']].drop_duplicates()
+combined = unique_sessions.merge(order_summary, left_on = ['user_id', 'session_date'], right_on = ['user_id', 'order_date'])
+final_output= combined.groupby(['user_id', 'session_date'])['order_value'].agg(['size', 'sum']).reset_index()
+final_output.columns = ['user_id', 'session_date', 'total_orders', 'total_order_value']
+final_output
