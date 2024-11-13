@@ -1,0 +1,23 @@
+problem
+
+---------
+
+Calculate the average score for each project, but only include projects where more than one team member has provided a score.Your output should include the project ID and the calculated average score for each qualifying project.
+
+
+
+Approach
+
+----------
+
+Filtering: I group it by project_id and use filter to keep only projects with more than one score.
+
+Calculating Averages: calculate the average score for each project by grouping again and using mean().
+
+
+solution
+---------
+import pandas as pd
+
+filtered_pd =project_data.groupby('project_id').filter(lambda x: len(x) > 1)
+average_scores = filtered_pd .groupby('project_id')['score'].mean().reset_index()
